@@ -10,7 +10,7 @@ class folder_admin(admin.ModelAdmin):
 
 @admin.register(File)
 class file_admin(admin.ModelAdmin):
-	list_per_page=25
+	list_per_page=50
 	list_display=('name','path','size', 'date_modified')
 
 admin.site.register(Settings)
