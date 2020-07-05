@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card mt-3 mb-3">
+  <div class="card-header"><strong>Upload Files</strong> <small>Bootstrap files upload</small></div>
+  <div class="card-body">
+    <table class="table table-striped table-hover table-bordered">
+      <thead>
+        <tr class="bg-primary text-white">
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Path</th>
+          <th scope="col">Modified Date</th>
+          <th scope="col">Parent</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for folder in folders%}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{folder.name}}</td>
+          <td>{{folder.path}}</td>
+          <td>{{folder.date_modified}}</td>
+          <td>{{folder.parent}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Simple Sidebar - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light text-primary border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading" style="font-weight: bold;">FTP File Monitor</div>
+      <div class="list-group list-group-flush text-primary p-3">
+        <form>
+          <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><i class="fa fa-search"></i></div>
+            </div>
+            <input type="text" class="form-control" name="query" placeholder="Enter file name">
+          </div>
+          <div class="form-group">
+            <label>Search by Date & Time</label>
+            <input class="form-control" id="datetimepicker" style="border-radius: None;" name="bytime">
+          </div>
+          <h6 class="border-bottom border-warning p-1 text-primary">Directory options</h6>
+          <small id="emailHelp" class="form-text text-muted">Select date range for filter the database</small>
+          <div class="input-group mb-2 mt-2 mr-sm-2">
+            
+            <input type="text" class="form-control" name="query" placeholder="Enter Directory name">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><i class="fa fa-folder"></i></div>
+            </div>
+          </div>
+          <div class="form-group">
+          
+          <label>From</label>
+          <input type="text" class="form-control" id="datepicker" name="fromdate" value="01-06-2020">
+          </div>
+          <div class="form-group">
+            <label>To</label>
+            <input type="text" class="form-control" id="datepicker2" name="todate" value="30-06-2020">
+          </div>
+
+          
+
+        <div class="form-group text-center mt-4">
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Search</button>
+        </div>
+        
+        </form>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom">
+        <button class="btn" id="menu-toggle"><i class="fa fa-bars"></i></button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <form class="form-inline my-2 ml-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link text-primary" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-primary" href="{% url 'file'%}">Files</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-primary" href="#">Folders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-primary" href="#">Settings</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+<div class="container-fluid">
+{% block content %}
+{% endblock content %}
+</div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+
+
+  <!-- Menu Toggle Script -->
+
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+    $('#datepicker').datepicker({uiLibrary: 'bootstrap4', autoclose: true, format: "dd-mm-yyyy"});
+    $('#datepicker2').datepicker({uiLibrary: 'bootstrap4', autoclose: true, format: "dd-mm-yyyy"});
+    $('#datetimepicker').datetimepicker({ uiLibrary: 'bootstrap4',iconsLibrary: 'fontawesome',footer: true, modal: true, format: "dd-mm-yyyy HH:MM"});
+    
+        </script>
+
+</body>
+
+</html>

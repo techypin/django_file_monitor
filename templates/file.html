@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card mt-3 mb-3">
+  <div class="card-header"><strong>File Monitor</strong> <small>Django files watcher</small></div>
+  <div class="card-body p-2">
+    <p>This is test </p>
+    <table class="table table-striped table-hover table-bordered table-sm">
+      <thead>
+        <tr class="bg-primary text-white">
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Folder Name</th>
+          <th scope="col">Path</th>
+          <th scope="col">Modified Date</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in files %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{file.name}}</td>
+          <td><a href="{% url 'file' %}?folder={{file.path.path}}">{{file.path.name}}</a></td>
+          <td>{{file.path.path}}</td>
+          <td>{{file.date_modified}}</td>
+          <td>{{file.size|convert_bytes}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}
