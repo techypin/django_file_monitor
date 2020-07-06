@@ -20,11 +20,11 @@ INSTDIR = Path(__file__).parent
 # The path of python Scripts
 # Usually it is in path_to/venv/Scripts.
 # If it is already in system PATH, then it can be set as ''
-PYTHONSCRIPTPATH = INSTDIR
+PYTHONSCRIPTPATH = INSTDIR / "file_system"
 # The directory name of django project
 # Note: it is the directory at the same level of manage.py
 # not the parent directory
-PROJECTDIR = 'proj'
+PROJECTDIR = 'file_system'
 
 logging.basicConfig(
     filename = INSTDIR / 'celery_service.log',
@@ -33,7 +33,7 @@ logging.basicConfig(
 )
 
 class CeleryService(win32serviceutil.ServiceFramework):
-   
+
     _svc_name_ = "Celery"
     _svc_display_name_ = "Celery Distributed Task Queue Service"
 
@@ -72,7 +72,6 @@ class CeleryService(win32serviceutil.ServiceFramework):
                 win32api.TerminateProcess(handle, -1)
                 win32api.CloseHandle(handle)                
                 break
-                  
+
 if __name__ == '__main__':
    win32serviceutil.HandleCommandLine(CeleryService)
-

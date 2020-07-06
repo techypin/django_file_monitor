@@ -18,7 +18,7 @@
       <tbody>
         {% for file in files %}
         <tr>
-          <th scope="row">{{ forloop.counter }}</th>
+          <th scope="row">{{forloop.counter0|add:files.start_index}}</th>
           <td>{{file.name}}</td>
           <td><a href="{% url 'file' %}?folder={{file.path.path}}">{{file.path.name}}</a></td>
           <td>{{file.path.path}}</td>
@@ -28,6 +28,39 @@
         {% endfor %}
       </tbody>
     </table>
+
+{% if files.has_other_pages %}
+<nav aria-label="...">
+  <ul class="pagination">
+    {% if files.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ files.previous_page_number }}">Previous</a></li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    {% endif %}
+    {% for i in files.paginator.page_range %}
+      {% if files.number == i %}
+    <li class="page-item active" aria-current="page">
+      <a class="page-link" href="#">{{ i }}<span class="sr-only">(current)</span></a>
+    </li>
+    {% elif i > files.number|add:'-5' and i < files.number|add:'5' %}
+    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if files.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ files.next_page_number }}">Next</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
   </div>
 </div>
 {% endblock content %}

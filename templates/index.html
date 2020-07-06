@@ -3,6 +3,7 @@
 <div class="card mt-3 mb-3">
   <div class="card-header"><strong>Upload Files</strong> <small>Bootstrap files upload</small></div>
   <div class="card-body">
+    <a class='Vibrant Success' onclick="window.open()">Open</a>
     <table class="table table-striped table-hover table-bordered">
       <thead>
         <tr class="bg-primary text-white">
@@ -17,9 +18,9 @@
       <tbody>
         {% for folder in folders%}
         <tr>
-          <th scope="row">{{ forloop.counter }}</th>
-          <td>{{folder.name}}</td>
-          <td>{{folder.path}}</td>
+          <th scope="row">{{forloop.counter0|add:folders.start_index}}</th>
+          <td>{{folder.name|slice:":30"}}</td>
+          <td>{{folder.path|slice:":40"}}</td>
           <td>{{folder.date_modified}}</td>
           <td>{{folder.parent}}</td>
           <td>{{folder.id|count_file}}</td>
@@ -27,6 +28,39 @@
         {% endfor %}
       </tbody>
     </table>
+
+{% if folders.has_other_pages %}
+<nav aria-label="...">
+  <ul class="pagination">
+    {% if folders.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ folders.previous_page_number }}">Previous</a></li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    {% endif %}
+    {% for i in folders.paginator.page_range %}
+      {% if folders.number == i %}
+    <li class="page-item active" aria-current="page">
+      <a class="page-link" href="#">{{ i }}<span class="sr-only">(current)</span></a>
+    </li>
+    {% elif i > folders.number|add:'-5' and i < folders.number|add:'5' %}
+    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if folders.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ folders.next_page_number }}">Next</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
   </div>
 </div>
 {% endblock content %}

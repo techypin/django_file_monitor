@@ -31,4 +31,3 @@ class File(models.Model):
 class Settings(models.Model):
 	path 				= models.CharField(max_length=500)
 	status				= models.BooleanField(default=False)
-	updated_at			= models.DateTimeField(auto_now_add=True)

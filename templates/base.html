@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Simple Sidebar - Start Bootstrap Template</title>
+  <title>FTP File Monitor</title>
 
   <!-- Bootstrap core CSS -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -31,7 +31,7 @@
 
     <!-- Sidebar -->
     <div class="bg-light text-primary border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading" style="font-weight: bold;">FTP File Monitor</div>
+      <div class="sidebar-heading" style="font-weight: bold;"><a href="{% url 'home' %}">FTP File Monitor</a></div>
       <div class="list-group list-group-flush text-primary p-3">
         <form>
           <div class="input-group mb-2 mr-sm-2">
@@ -91,16 +91,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link text-primary" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link text-primary" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-primary" href="{% url 'file'%}">Files</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-primary" href="#">Folders</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-primary" href="#">Settings</a>
+              <a class="nav-link text-primary" href="{% url 'settings' %}">Settings</a>
             </li>
           </ul>
         </div>
