@@ -1,1 +1,1 @@
-# django_folder_monitor
+# django_file_monitor
