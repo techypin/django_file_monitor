@@ -33,7 +33,11 @@
     <div class="bg-light text-primary border-right" id="sidebar-wrapper">
       <div class="sidebar-heading" style="font-weight: bold;"><a href="{% url 'home' %}">FTP File Monitor</a></div>
       <div class="list-group list-group-flush text-primary p-3">
+        {% if folders %}
+        <form action="{% url 'home' %}">
+        {% elif files%}
         <form action="{% url 'file' %}">
+        {% endif %}
           <h6 class="border-bottom border-warning p-1 text-primary">File options</h6>
           <div class="input-group mb-2 mr-sm-2">
             <div class="input-group-prepend">

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.db.models import Q
 from .models import *
 from django.template.defaulttags import register
@@ -21,6 +22,33 @@ def count_file(folder):
 
 def home(request):
 	folders = Folder.objects.all().order_by('-date_modified')
+	query = request.GET.get('query')
+	folder = request.GET.get('folder')
+	start_date = request.GET.get('start_date')
+	end_date = request.GET.get('end_date')
+	date = request.GET.get('date')
+	st_time = request.GET.get('st_time')
+	en_time = request.GET.get('en_time')
+	if start_date and end_date:
+		start_date = datetime.datetime.strptime(start_date, '%d-%m-%Y').strftime('%Y-%m-%d')
+		end_date = datetime.datetime.strptime(end_date, '%d-%m-%Y').strftime('%Y-%m-%d')
+		folders = folders.filter(date_modified__range=[start_date, end_date])
+	if folder:
+		folder = folder.replace("/", "\\")
+		folders = folders.filter(path=folder)
+	if query:
+		folders = folders.filter(name__contains=query)
+	if date:
+		date = datetime.datetime.strptime(date, '%d-%m-%Y')
+		folders = folders.filter(date_modified__date=date.strftime('%Y-%m-%d'))
+	if st_time and en_time:
+		st_time = [int(i) for i in st_time.split(":")]
+		en_time = [int(i) for i in en_time.split(":")]
+		folders = folders.filter(
+			date_modified__time__range=(
+				datetime.time(st_time[0],st_time[1]),
+				datetime.time(en_time[0],en_time[1])
+				))
 	page = request.GET.get('page', 1)
 	paginator = Paginator(folders, 20)
 	try:
@@ -45,6 +73,7 @@ def file(request):
 		end_date = datetime.datetime.strptime(end_date, '%d-%m-%Y').strftime('%Y-%m-%d')
 		files = files.filter(date_modified__range=[start_date, end_date])
 	if folder:
+		folder = folder.replace("/", "\\")
 		folder = Folder.objects.get(path=folder)
 		files = files.filter(path=folder)
 	if query:
@@ -80,10 +109,10 @@ def settings(request):
 			file_lines = data.split("\n")
 			for line in file_lines:
 				Settings.objects.create(path=line)
-			redirect('settings')
+			return redirect('settings')
 		elif folder_path:
 			Settings.objects.create(path=folder_path)
-			redirect('settings')
+			return redirect('settings')
 	return render(request, 'settings.html', {'settings':settings})
 
 def Update_setting(request, id, status):

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="card mt-3 mb-3">
-  <div class="card-header"><strong>Upload Files</strong> <small>Bootstrap files upload</small></div>
+  <div class="card-header"><strong>Folder Monitor</strong> <small>django file monitor</small></div>
   <div class="card-body">
     <table class="table table-striped table-hover table-bordered">
       <thead>
@@ -24,9 +24,14 @@
           <td>{{folder.parent}}</td>
           <td>{{folder.id|count_file}}</td>
         </tr>
+
         {% endfor %}
+
+
       </tbody>
     </table>
+    
+     
 
 {% if folders.has_other_pages %}
 <nav aria-label="...">
