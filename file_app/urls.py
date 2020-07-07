@@ -7,4 +7,5 @@ urlpatterns = [
     path('file/', file, name="file"),
     path('settings/', settings, name="settings"),
     re_path(r'^settings/(?P<id>[\w-]+)/(?P<status>[\w-]+)$', Update_setting, name="update_setting"),
+    re_path(r'^settings/(?P<id>[\w-]+)$', delete_settings, name="delete_setting"),
 ] 

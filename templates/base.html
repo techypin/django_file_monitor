@@ -33,34 +33,44 @@
     <div class="bg-light text-primary border-right" id="sidebar-wrapper">
       <div class="sidebar-heading" style="font-weight: bold;"><a href="{% url 'home' %}">FTP File Monitor</a></div>
       <div class="list-group list-group-flush text-primary p-3">
-        <form>
+        <form action="{% url 'file' %}">
+          <h6 class="border-bottom border-warning p-1 text-primary">File options</h6>
           <div class="input-group mb-2 mr-sm-2">
             <div class="input-group-prepend">
               <div class="input-group-text"><i class="fa fa-search"></i></div>
             </div>
-            <input type="text" class="form-control" name="query" placeholder="Enter file name">
+            <input type="text" class="form-control" name="query" value="{{ request.GET.query }}" placeholder="Enter file name">
           </div>
           <div class="form-group">
-            <label>Search by Date & Time</label>
-            <input class="form-control" id="datetimepicker" style="border-radius: None;" name="bytime">
+            <label>Filter by Date and time interval</label>
+            <input class="form-control" id="date" placeholder="Enter Date" style="border-radius: None;" name="date" value="{{ request.GET.date }}">
+          </div> 
+          <div class="form-row">
+
+          <div class="col">
+            <input type="text" class="form-control border border-dark" value="{{ request.GET.st_time }}" placeholder="Time" id="st_time" name="st_time">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control border border-dark" value="{{ request.GET.en_time }}" placeholder="Time" id="en_time" name="en_time">
+          </div>
+          <small id="emailHelp" style="width: 100%;" class="form-text p-2 mt-0 text-danger">Use only 24 hours format</small>
           </div>
           <h6 class="border-bottom border-warning p-1 text-primary">Directory options</h6>
-          <small id="emailHelp" class="form-text text-muted">Select date range for filter the database</small>
-          <div class="input-group mb-2 mt-2 mr-sm-2">
-            
-            <input type="text" class="form-control" name="query" placeholder="Enter Directory name">
+          
+          <div class="input-group mb-2 mt-3 mb-3 mr-sm-2">
             <div class="input-group-prepend">
               <div class="input-group-text"><i class="fa fa-folder"></i></div>
             </div>
+            <input type="text" class="form-control" name="folder" value="{{ request.GET.folder }}" placeholder="Enter Directory Path">
           </div>
           <div class="form-group">
           
-          <label>From</label>
-          <input type="text" class="form-control" id="datepicker" name="fromdate" value="01-06-2020">
+          <small id="emailHelp" class="form-text text-muted mb-3">Select date range for filter the database</small>
+          <input type="text" class="form-control" placeholder="From Date" id="s_date" name="start_date" value="{{ request.GET.start_date }}">
           </div>
           <div class="form-group">
-            <label>To</label>
-            <input type="text" class="form-control" id="datepicker2" name="todate" value="30-06-2020">
+            <!-- <label>To</label> -->
+            <input type="text" class="form-control" placeholder="To Date" id="e_date" name="end_date" value="{{ request.GET.end_date }}">
           </div>
 
           
@@ -122,10 +132,14 @@
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
-    $('#datepicker').datepicker({uiLibrary: 'bootstrap4', autoclose: true, format: "dd-mm-yyyy"});
-    $('#datepicker2').datepicker({uiLibrary: 'bootstrap4', autoclose: true, format: "dd-mm-yyyy"});
-    $('#datetimepicker').datetimepicker({ uiLibrary: 'bootstrap4',iconsLibrary: 'fontawesome',footer: true, modal: true, format: "dd-mm-yyyy HH:MM"});
-    
+    $('#s_date').datepicker({uiLibrary: 'bootstrap4',
+      iconsLibrary: 'fontawesome', autoclose: true, format: "dd-mm-yyyy"});
+    $('#e_date').datepicker({uiLibrary: 'bootstrap4',
+      iconsLibrary: 'fontawesome',autoclose: true, format: "dd-mm-yyyy"});
+    $('#date').datepicker({ uiLibrary: 'bootstrap4',
+      iconsLibrary: 'fontawesome',autoclose: true, format: "dd-mm-yyyy"});
+    $('#st_time').timepicker({ uiLibrary: 'bootstrap4',iconsLibrary: 'fontawesome',model:false});
+    $('#en_time').timepicker({ uiLibrary: 'bootstrap4',iconsLibrary: 'fontawesome',model:false});
         </script>
 
 </body>

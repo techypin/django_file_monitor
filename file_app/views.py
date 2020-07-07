@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from .models import *
 from django.template.defaulttags import register
 from django.core.paginator import Paginator
+import datetime
 
 @register.filter
 def convert_bytes(num):
@@ -31,6 +33,33 @@ def home(request):
 
 def file(request):
 	files = File.objects.all().order_by('-date_modified')
+	query = request.GET.get('query')
+	folder = request.GET.get('folder')
+	start_date = request.GET.get('start_date')
+	end_date = request.GET.get('end_date')
+	date = request.GET.get('date')
+	st_time = request.GET.get('st_time')
+	en_time = request.GET.get('en_time')
+	if start_date and end_date:
+		start_date = datetime.datetime.strptime(start_date, '%d-%m-%Y').strftime('%Y-%m-%d')
+		end_date = datetime.datetime.strptime(end_date, '%d-%m-%Y').strftime('%Y-%m-%d')
+		files = files.filter(date_modified__range=[start_date, end_date])
+	if folder:
+		folder = Folder.objects.get(path=folder)
+		files = files.filter(path=folder)
+	if query:
+		files = files.filter(name__contains=query)
+	if date:
+		date = datetime.datetime.strptime(date, '%d-%m-%Y')
+		files = files.filter(date_modified__date=date.strftime('%Y-%m-%d'))
+	if st_time and en_time:
+		st_time = [int(i) for i in st_time.split(":")]
+		en_time = [int(i) for i in en_time.split(":")]
+		files = files.filter(
+			date_modified__time__range=(
+				datetime.time(st_time[0],st_time[1]),
+				datetime.time(en_time[0],en_time[1])
+				))
 	page = request.GET.get('page', 1)
 	paginator = Paginator(files, 20)
 	try:
@@ -39,10 +68,6 @@ def file(request):
 		files = paginator.page(1)
 	except EmptyPage:
 		files = paginator.page(paginator.num_pages)
-	if request.GET.get('folder'):
-		folder = request.GET.get('folder')
-		folder = Folder.objects.get(path=folder)
-		files = files.filter(path=folder).order_by('date_modified')
 	return render(request, 'file.html', {'files':files})
 
 def settings(request):
@@ -63,4 +88,9 @@ def Update_setting(request, id, status):
 	else:
 		settings.status = True
 	settings.save()
+	return redirect('settings')
+
+def delete_settings(request, id):
+	settings = Settings.objects.get(id=id)
+	settings.delete()
 	return redirect('settings')

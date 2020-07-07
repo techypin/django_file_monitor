@@ -3,7 +3,7 @@
 <div class="card mt-3 mb-3">
   <div class="card-header"><strong>File Monitor</strong> <small>Django files watcher</small></div>
   <div class="card-body p-2">
-    <p>This is test </p>
+
     <table class="table table-striped table-hover table-bordered table-sm">
       <thead>
         <tr class="bg-primary text-white">
@@ -33,7 +33,7 @@
 <nav aria-label="...">
   <ul class="pagination">
     {% if files.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page={{ files.previous_page_number }}">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ files.previous_page_number }}{% if request.GET.folder %}&folder={{ request.GET.folder }}{% endif %}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}{% if request.GET.s_date %}&s_date={{ request.GET.s_date }}{% endif %}{% if request.GET.e_date %}&e_date={{ request.GET.e_date }}{% endif %}{% if request.GET.sn_time %}&sn_time={{ request.GET.sn_time }}{% endif %}{% if request.GET.en_time %}&e_date={{ request.GET.e_date }}{% endif %}">Previous</a></li>
     {% else %}
     <li class="page-item disabled">
       <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
@@ -42,24 +42,27 @@
     {% for i in files.paginator.page_range %}
       {% if files.number == i %}
     <li class="page-item active" aria-current="page">
-      <a class="page-link" href="#">{{ i }}<span class="sr-only">(current)</span></a>
+      <a class="page-link" href="">{{ i }}<span class="sr-only">(current)</span></a>
     </li>
     {% elif i > files.number|add:'-5' and i < files.number|add:'5' %}
-    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ i }}{% if request.GET.folder %}&folder={{ request.GET.folder }}{% endif %}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}{% if request.GET.s_date %}&s_date={{ request.GET.s_date }}{% endif %}{% if request.GET.e_date %}&e_date={{ request.GET.e_date }}{% endif %}{% if request.GET.sn_time %}&sn_time={{ request.GET.sn_time }}{% endif %}{% if request.GET.en_time %}&e_date={{ request.GET.e_date }}{% endif %}">{{ i }}</a></li>
     {% endif %}
     {% endfor %}
     {% if files.has_next %}
     <li class="page-item">
-      <a class="page-link" href="?page={{ files.next_page_number }}">Next</a>
+      <a class="page-link" href="?page={{ files.next_page_number }}{% if request.GET.folder %}&folder={{ request.GET.folder }}{% endif %}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}{% if request.GET.s_date %}&s_date={{ request.GET.s_date }}{% endif %}{% if request.GET.e_date %}&e_date={{ request.GET.e_date }}{% endif %}{% if request.GET.sn_time %}&sn_time={{ request.GET.sn_time }}{% endif %}{% if request.GET.en_time %}&e_date={{ request.GET.e_date }}{% endif %}">Next</a>
     </li>
     {% else %}
     <li class="page-item disabled">
       <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
     </li>
+
     {% endif %}
   </ul>
+  
 </nav>
 {% endif %}
+
 
   </div>
 </div>
