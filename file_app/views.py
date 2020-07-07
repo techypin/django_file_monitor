@@ -73,12 +73,17 @@ def file(request):
 def settings(request):
 	settings = Settings.objects.all()
 	if request.method == "POST":
-		file = request.FILES['file']
-		data = file.read().decode("utf-8")
-		file_lines = data.split("\n")
-		for line in file_lines:
-			Settings.objects.create(path=line)
-		redirect('settings')
+		file = request.FILES.get('file')
+		folder_path = request.POST.get('folder_path')
+		if file:
+			data = file.read().decode("utf-8")
+			file_lines = data.split("\n")
+			for line in file_lines:
+				Settings.objects.create(path=line)
+			redirect('settings')
+		elif folder_path:
+			Settings.objects.create(path=folder_path)
+			redirect('settings')
 	return render(request, 'settings.html', {'settings':settings})
 
 def Update_setting(request, id, status):

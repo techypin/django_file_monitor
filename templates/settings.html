@@ -1,70 +1,73 @@
-{% extends "base.html" %}
-{% block content %}
-      <div class="card mt-3 mb-3">
-        <div class="card-header"><strong>Update Settings</strong> <small class="text-primary">upload only txt file</small></div>
-        <div class="card-body">
-            <form method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-row" style="width: 40%;">
-            <div class="col-md-9 mb-3">
+  {% extends "base.html" %}
+  {% block content %}
+  <div class="card mt-3 mb-3">
+    <div class="card-header"><strong>Update Settings</strong> <small class="text-primary">upload only txt file</small></div>
+    <div class="card-body">
+      <form method="POST" class="p-2 mb-3 mt-3" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-row justify-content-center">
+          <div class="form-group col-md-6">
+            <input type="text" class="form-control" id="folder_path" name="folder_path" placeholder="Enter Forder path">
+          </div>
+          <h6 class="p-2">Or</h6>
+          <div class="form-group col-md-3">
             <div class="custom-file">
-            <input type="file" class="custom-file-input" name="file" id="customFile" accept="text/plain" />
-            <label class="custom-file-label" for="customFile">Choose file</label>
+              <input type="file" class="custom-file-input" name="file" id="customFile" accept="text/plain" />
+              <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
-            </div>
-            <div class="col-md-3 mb-3">
-            <button class="btn btn-primary" type="submit">Upload</button>
-            </div>
-
-            </div>
-
-            </form>
-
-
-        	<table class="table table-striped table-hover table-bordered">
-      <thead>
-        <tr class="bg-primary text-white">
-          <th scope="col">#</th>
-          <th scope="col">Path</th>
-          <th scope="col">Status</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for set in settings %}
-        <tr>
-          <th scope="row">{{ forloop.counter }}</th>
-          <td>{{set.path}}</td>
-          <td>
-          	{% if set.status == True %}
-          	Active
-          	{% else %}
-          	Not active
-          	{% endif %}
-          </td>
-          <td>
-          	{% if set.status == True%}
-          	<a class="btn btn-success btn-sm" href="{% url 'update_setting' set.id set.status %}"><i class="fa fa-eye"></i></a>
-          	{% else %}
-          	<a class="btn btn-warning btn-sm" href="{% url 'update_setting' set.id set.status %}"><i class="fa fa-eye"></i></button>
-          	{% endif %}
-          	<a class="btn btn-danger btn-sm ml-2" href="{% url 'delete_setting' set.id %}"><i class="fa fa-trash"></i></a>
-
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-
-
-
-
-
-
-          
+          </div>
+          <div class="form-group col-md-2">
+            <button class="btn btn-primary" type="submit" style="width: 100%">Sumbit</button>
+          </div>
         </div>
-      </div><!-- /container -->
+      </form>
 
-{% load static %}
-{% endblock content %}
+
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr class="bg-primary text-white">
+            <th scope="col">#</th>
+            <th scope="col">Path</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for set in settings %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{set.path}}</td>
+            <td>
+            	{% if set.status == True %}
+            	Active
+            	{% else %}
+            	Not active
+            	{% endif %}
+            </td>
+            <td>
+            	{% if set.status == True%}
+            	<a class="btn btn-success btn-sm" href="{% url 'update_setting' set.id set.status %}"><i class="fa fa-eye"></i></a>
+            	{% else %}
+            	<a class="btn btn-warning btn-sm" href="{% url 'update_setting' set.id set.status %}"><i class="fa fa-eye"></i></button>
+               {% endif %}
+               <a class="btn btn-danger btn-sm ml-2" href="{% url 'delete_setting' set.id %}"><i class="fa fa-trash"></i></a>
+
+             </td>
+           </tr>
+           {% endfor %}
+         </tbody>
+       </table>
+
+
+
+
+
+
+
+
+     </div>
+   </div><!-- /container -->
+
+   {% load static %}
+   {% endblock content %}
