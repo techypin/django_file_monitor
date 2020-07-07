@@ -1,9 +1,6 @@
   {% extends "base.html" %}
   {% block content %}
-  <div class="card mt-3 mb-3">
-    <div class="card-header"><strong>Update Settings</strong> <small class="text-primary">upload only txt file</small></div>
-    <div class="card-body">
-      <form method="POST" class="p-2 mb-3 mt-3" action="" enctype="multipart/form-data">
+  <form method="POST" class="p-2 mb-3 mt-3" action="" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="form-row justify-content-center">
@@ -22,6 +19,17 @@
           </div>
         </div>
       </form>
+  <div class="card mt-3 mb-3">
+    <div class="card-header">
+      <strong>Update Settings</strong> <small class="text-primary">upload only txt file</small>
+      <div class="d-inline-flex float-right">
+        <a href="{% url 'settings' %}?status=active_all" class="btn btn-success mr-2 text-white btn-sm" type="submit" style="width: 100%">Active all</a>
+        <a href="{% url 'settings' %}?status=inactive_all" class="btn btn-warning ml-2 mr-2 btn-sm" type="submit" style="width: 100%">Inactive all</a>
+        <a href="{% url 'settings' %}?status=delete_all" class="btn btn-danger  ml-2 text-white btn-sm" type="submit" style="width: 100%">Delete all</a>
+      </div>
+    </div>
+    <div class="card-body">
+      
 
 
       <table class="table table-striped table-hover table-bordered">

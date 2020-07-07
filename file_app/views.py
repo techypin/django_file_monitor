@@ -113,6 +113,16 @@ def settings(request):
 		elif folder_path:
 			Settings.objects.create(path=folder_path)
 			return redirect('settings')
+	status = request.GET.get('status')
+	if status == "active_all":
+		settings.update(status = True)
+		return redirect('settings')
+	elif status == "inactive_all":
+		settings.update(status = False)
+		return redirect('settings')
+	elif status == "delete_all":
+		settings.delete()
+		return redirect('settings')
 	return render(request, 'settings.html', {'settings':settings})
 
 def Update_setting(request, id, status):
