@@ -49,14 +49,6 @@ def home(request):
 				datetime.time(st_time[0],st_time[1]),
 				datetime.time(en_time[0],en_time[1])
 				))
-	page = request.GET.get('page', 1)
-	paginator = Paginator(folders, 20)
-	try:
-		folders = paginator.page(page)
-	except PageNotAnInteger:
-		folders = paginator.page(1)
-	except EmptyPage:
-		folders = paginator.page(paginator.num_pages)
 	return render(request, 'index.html', {'folders':folders})
 
 def file(request):
@@ -89,14 +81,6 @@ def file(request):
 				datetime.time(st_time[0],st_time[1]),
 				datetime.time(en_time[0],en_time[1])
 				))
-	page = request.GET.get('page', 1)
-	paginator = Paginator(files, 20)
-	try:
-		files = paginator.page(page)
-	except PageNotAnInteger:
-		files = paginator.page(1)
-	except EmptyPage:
-		files = paginator.page(paginator.num_pages)
 	return render(request, 'file.html', {'files':files})
 
 def Manage_folders(request):

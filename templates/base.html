@@ -14,7 +14,15 @@
   <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
   <!-- Custom styles for this template -->
   <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+<link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/datatables/responsive.bootstrap4.min.css' %}" rel="stylesheet">
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <style type="text/css">
+td {
+  word-break: break-all;
+}
+  </style>
 </head>
 <body>
   <div class="d-flex" id="wrapper">
@@ -22,7 +30,7 @@
     <div class="bg-light text-primary border-right" id="sidebar-wrapper">
       <div class="sidebar-heading font-weight-bold">
         <a class="navbar-brand" href="{% url 'home' %}">
-          <img src="{% static 'logo.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+          <!-- <img src="{% static 'logo.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> -->
       Ftp File Monitor</a></div>
       <div class="list-group list-group-flush text-primary p-3">
         {% if folders %}
@@ -105,7 +113,7 @@
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'manage_folders' %}">Manage Folders</a>
-                        <a class="dropdown-item" href="#">Monitor Settings</a>
+                        <!-- <a class="dropdown-item" href="#">Monitor Settings</a> -->
                         <!-- <div class="dropdown-divider"></div> -->
                         <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                       </div>
@@ -116,6 +124,7 @@
                   </ul>
                 </div>
               </nav>
+
               <div class="container-fluid">
                 {% block content %}
                 {% endblock content %}
@@ -125,7 +134,16 @@
           </div>
           <!-- /#wrapper -->
           <!-- Menu Toggle Script -->
+          <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+          <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+          <script src="{% static 'vendor/datatables/dataTables.responsive.min.js' %}"></script>
           <script>
+            $(document).ready(function() {
+    $('#example').DataTable( {
+      // responsive: true,
+        "lengthMenu": [[1000, 1500, 2000, 2500, -1], [1000, 1500, 2000, 2500, "All"]]
+    } );
+} );
             $("#menu-toggle").click(function(e) {
               e.preventDefault();
               $("#wrapper").toggleClass("toggled");
