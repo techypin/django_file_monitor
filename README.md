@@ -1,4 +1,4 @@
-# Django File Monitor
+# Django File Monitor :heart:
 This is the Django file monitoring app. in this app u can add an folders path to scanning 
 
 
