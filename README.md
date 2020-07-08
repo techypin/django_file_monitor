@@ -1,4 +1,4 @@
-# Django File Monitor :heart:
+# Django File Monitor :open_file_folder: :mag:
 This is the Django file monitoring app. in this app u can add an folders path to scanning 
 
 
