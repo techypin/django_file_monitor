@@ -145,7 +145,7 @@ def check_m_date(path,folder_l_time):
 	return False
 
 def job():
-	settings = Settings.objects.filter(status=True)
+	settings = Manage_folders.objects.filter(status=True)
 	for i in settings:
 		start=time.time()
 		data = get_data(i.path)

@@ -99,8 +99,8 @@ def file(request):
 		files = paginator.page(paginator.num_pages)
 	return render(request, 'file.html', {'files':files})
 
-def settings(request):
-	settings = Settings.objects.all()
+def Manage_folders(request):
+	dataset = Manage_folder.objects.all()
 	if request.method == "POST":
 		file = request.FILES.get('file')
 		folder_path = request.POST.get('folder_path')
@@ -108,33 +108,33 @@ def settings(request):
 			data = file.read().decode("utf-8")
 			file_lines = data.split("\n")
 			for line in file_lines:
-				Settings.objects.create(path=line)
-			return redirect('settings')
+				Manage_folder.objects.create(path=line)
+			return redirect('manage_folders')
 		elif folder_path:
-			Settings.objects.create(path=folder_path)
-			return redirect('settings')
+			Manage_folder.objects.create(path=folder_path)
+			return redirect('manage_folders')
 	status = request.GET.get('status')
 	if status == "active_all":
-		settings.update(status = True)
-		return redirect('settings')
+		dataset.update(status = True)
+		return redirect('manage_folders')
 	elif status == "inactive_all":
-		settings.update(status = False)
-		return redirect('settings')
+		dataset.update(status = False)
+		return redirect('manage_folders')
 	elif status == "delete_all":
-		settings.delete()
-		return redirect('settings')
-	return render(request, 'settings.html', {'settings':settings})
+		dataset.delete()
+		return redirect('manage_folders')
+	return render(request, 'folder_list.html', {'folder_list':dataset})
 
-def Update_setting(request, id, status):
-	settings = Settings.objects.get(id=id)
+def Update_folders(request, id, status):
+	dataset = Manage_folder.objects.get(id=id)
 	if status == "True":
-		settings.status = False
+		dataset.status = False
 	else:
-		settings.status = True
-	settings.save()
-	return redirect('settings')
+		dataset.status = True
+	dataset.save()
+	return redirect('manage_folders')
 
-def delete_settings(request, id):
-	settings = Settings.objects.get(id=id)
-	settings.delete()
-	return redirect('settings')
+def Delete_folders(request, id):
+	dataset = Manage_folder.objects.get(id=id)
+	dataset.delete()
+	return redirect('manage_folders')

@@ -28,6 +28,6 @@ class File(models.Model):
 	def __str__(self):
 		return self.name
 
-class Settings(models.Model):
+class Manage_folder(models.Model):
 	path 				= models.CharField(max_length=500)
 	status				= models.BooleanField(default=False)

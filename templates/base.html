@@ -1,151 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
   <title>FTP File Monitor</title>
-
   <!-- Bootstrap core CSS -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
   <!-- Custom styles for this template -->
   <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-
 </head>
-
 <body>
-
   <div class="d-flex" id="wrapper">
-
     <!-- Sidebar -->
     <div class="bg-light text-primary border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading" style="font-weight: bold;"><a href="{% url 'home' %}">FTP File Monitor</a></div>
+      <div class="sidebar-heading font-weight-bold">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'logo.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+      Ftp File Monitor</a></div>
       <div class="list-group list-group-flush text-primary p-3">
         {% if folders %}
         <form action="{% url 'home' %}">
-        {% elif files%}
-        <form action="{% url 'file' %}">
-        {% endif %}
-          <h6 class="border-bottom border-warning p-1 text-primary">File options</h6>
-          <div class="input-group mb-2 mr-sm-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text"><i class="fa fa-search"></i></div>
-            </div>
-            <input type="text" class="form-control" name="query" value="{{ request.GET.query }}" placeholder="Enter file name">
+          {% elif files%}
+          <form action="{% url 'file' %}">
+            {% else %}
+            <form action="{% url 'home' %}">
+              {% endif %}
+              <h6 class="border-bottom border-warning p-1 text-primary">File options</h6>
+              <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-search"></i></div>
+                </div>
+                <input type="text" class="form-control" name="query" value="{{ request.GET.query }}" placeholder="Enter file name">
+              </div>
+              <div class="form-group">
+                <label>Filter by Date and time interval</label>
+                <input class="form-control" id="date" placeholder="Enter Date" style="border-radius: None;" name="date" value="{{ request.GET.date }}">
+              </div> 
+              <div class="form-row">
+                <div class="col">
+                  <input type="text" class="form-control border border-dark" value="{{ request.GET.st_time }}" placeholder="Time" id="st_time" name="st_time">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control border border-dark" value="{{ request.GET.en_time }}" placeholder="Time" id="en_time" name="en_time">
+                </div>
+                <small id="emailHelp" style="width: 100%;" class="form-text p-2 mt-0 text-danger">Use only 24 hours format</small>
+              </div>
+              <h6 class="border-bottom border-warning p-1 text-primary">Directory options</h6>
+              <div class="input-group mb-2 mt-3 mb-3 mr-sm-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-folder"></i></div>
+                </div>
+                <input type="text" class="form-control" name="folder" value="{{ request.GET.folder }}" placeholder="Enter Directory Path">
+              </div>
+              <div class="form-group">
+                <small id="emailHelp" class="form-text text-muted mb-3">Select date range for filter the database</small>
+                <input type="text" class="form-control" placeholder="From Date" id="s_date" name="start_date" value="{{ request.GET.start_date }}">
+              </div>
+              <div class="form-group">
+                <!-- <label>To</label> -->
+                <input type="text" class="form-control" placeholder="To Date" id="e_date" name="end_date" value="{{ request.GET.end_date }}">
+              </div>
+              <div class="form-group text-center mt-4">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Search</button>
+              </div>
+            </form>
           </div>
-          <div class="form-group">
-            <label>Filter by Date and time interval</label>
-            <input class="form-control" id="date" placeholder="Enter Date" style="border-radius: None;" name="date" value="{{ request.GET.date }}">
-          </div> 
-          <div class="form-row">
-
-          <div class="col">
-            <input type="text" class="form-control border border-dark" value="{{ request.GET.st_time }}" placeholder="Time" id="st_time" name="st_time">
-          </div>
-          <div class="col">
-            <input type="text" class="form-control border border-dark" value="{{ request.GET.en_time }}" placeholder="Time" id="en_time" name="en_time">
-          </div>
-          <small id="emailHelp" style="width: 100%;" class="form-text p-2 mt-0 text-danger">Use only 24 hours format</small>
-          </div>
-          <h6 class="border-bottom border-warning p-1 text-primary">Directory options</h6>
-          
-          <div class="input-group mb-2 mt-3 mb-3 mr-sm-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text"><i class="fa fa-folder"></i></div>
-            </div>
-            <input type="text" class="form-control" name="folder" value="{{ request.GET.folder }}" placeholder="Enter Directory Path">
-          </div>
-          <div class="form-group">
-          
-          <small id="emailHelp" class="form-text text-muted mb-3">Select date range for filter the database</small>
-          <input type="text" class="form-control" placeholder="From Date" id="s_date" name="start_date" value="{{ request.GET.start_date }}">
-          </div>
-          <div class="form-group">
-            <!-- <label>To</label> -->
-            <input type="text" class="form-control" placeholder="To Date" id="e_date" name="end_date" value="{{ request.GET.end_date }}">
-          </div>
-
-          
-
-        <div class="form-group text-center mt-4">
-          <button type="submit" class="btn btn-primary" style="width: 100%;">Search</button>
         </div>
-        
-        </form>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-
-      <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom">
-        <button class="btn" id="menu-toggle"><i class="fa fa-bars"></i></button>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <form class="form-inline my-2 ml-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
-    </form>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link text-primary" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-primary" href="{% url 'file'%}">Files</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-primary" href="{% url 'settings' %}">Settings</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-<div class="container-fluid">
-{% block content %}
-{% endblock content %}
-</div>
-    </div>
-    <!-- /#page-content-wrapper -->
-
-  </div>
-  <!-- /#wrapper -->
-
-
-
-  <!-- Menu Toggle Script -->
-
-  <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-    $('#s_date').datepicker({uiLibrary: 'bootstrap4',
-      iconsLibrary: 'fontawesome', autoclose: true, format: "dd-mm-yyyy"});
-    $('#e_date').datepicker({uiLibrary: 'bootstrap4',
-      iconsLibrary: 'fontawesome',autoclose: true, format: "dd-mm-yyyy"});
-    $('#date').datepicker({ uiLibrary: 'bootstrap4',
-      iconsLibrary: 'fontawesome',autoclose: true, format: "dd-mm-yyyy"});
-    $('#st_time').timepicker({ uiLibrary: 'bootstrap4',iconsLibrary: 'fontawesome',model:false});
-    $('#en_time').timepicker({ uiLibrary: 'bootstrap4',iconsLibrary: 'fontawesome',model:false});
-        </script>
-
-</body>
-
-</html>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+          <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom font-weight-bold">
+            <button class="btn" id="menu-toggle"><i class="fa fa-bars"></i></button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            {% if folders %}
+            <form class="form-inline my-2 ml-2 my-lg-0" action="{% url 'home' %}">
+              {% elif files %}
+              <form class="form-inline my-2 ml-2 my-lg-0" action="{% url 'file' %}">
+                {% else %}
+                <form class="form-inline my-2 ml-2 my-lg-0" action="{% url 'home' %}">
+                  {% endif %}
+                  <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+                </form>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'file'%}">Files</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Settings
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'manage_folders' %}">Manage Folders</a>
+                        <a class="dropdown-item" href="#">Monitor Settings</a>
+                        <!-- <div class="dropdown-divider"></div> -->
+                        <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">@techypin</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+              <div class="container-fluid">
+                {% block content %}
+                {% endblock content %}
+              </div>
+            </div>
+            <!-- /#page-content-wrapper -->
+          </div>
+          <!-- /#wrapper -->
+          <!-- Menu Toggle Script -->
+          <script>
+            $("#menu-toggle").click(function(e) {
+              e.preventDefault();
+              $("#wrapper").toggleClass("toggled");
+            });
+            $('#s_date').datepicker({uiLibrary: 'bootstrap4',
+              iconsLibrary: 'fontawesome', autoclose: true, format: "dd-mm-yyyy"});
+            $('#e_date').datepicker({uiLibrary: 'bootstrap4',
+              iconsLibrary: 'fontawesome',autoclose: true, format: "dd-mm-yyyy"});
+            $('#date').datepicker({ uiLibrary: 'bootstrap4',
+              iconsLibrary: 'fontawesome',autoclose: true, format: "dd-mm-yyyy"});
+            $('#st_time').timepicker({ uiLibrary: 'bootstrap4',iconsLibrary: 'fontawesome',model:false});
+            $('#en_time').timepicker({ uiLibrary: 'bootstrap4',iconsLibrary: 'fontawesome',model:false});
+          </script>
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        </body>
+        </html>
